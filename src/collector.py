@@ -1,4 +1,13 @@
 import time
+import shutil
+
+#result is in bytes, a named tuple(total, used, free)
+def get_disk_stats():
+	return shutil.disk_usage('/') #returns the storage stats for the root directory of the OS
+def get_disk_percent():
+	usage = get_disk_stats()
+	disk_used_percent = (usage.used / usage.total) * 100
+	return disk_used_percent
 
 def read_cpu_times():
 	with open('/proc/stat', 'r') as f:
@@ -38,4 +47,5 @@ def get_mem_percent():
 
 
 if __name__ == "__main__":
-	print(get_mem_percent())
+	print(get_disk_stats())
+	print(get_disk_percent())
