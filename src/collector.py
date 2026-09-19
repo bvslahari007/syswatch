@@ -30,6 +30,12 @@ def read_mem_info():
 			data['MemAvailable'] = int(i_clean[1])
 	return data
 
+def get_mem_percent():
+	data = read_mem_info()
+	mem_percent = ((data['MemTotal'] - data['MemAvailable'])/(data['MemTotal']))*100
+	return mem_percent
+
+
 
 if __name__ == "__main__":
-	print(read_mem_info())
+	print(get_mem_percent())
