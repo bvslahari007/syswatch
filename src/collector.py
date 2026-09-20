@@ -1,5 +1,26 @@
 import time
 import shutil
+import psutil
+
+def list_processes():
+	l = []
+	procs = list(psutil.process_iter(['pid', 'name']))
+	for i in procs:
+		i.cpu_percent()
+	time.sleep(2)
+	for i in procs:
+		data = {}
+		data['pid'] = i.info['pid']
+		data['name'] = i.info['name']
+		data['cpu'] = i.cpu_percent()
+		data['mem'] = i.memory_percent()
+		l.append(data)
+	return l
+
+def get_top_consumers(n=5):
+	data = list_processes()
+	sorted_data = sorted(data, key=lambda x: x['cpu'], reverse=True)
+	return sorted_data[:n]
 
 #result is in bytes, a named tuple(total, used, free)
 def get_disk_stats():
@@ -47,5 +68,5 @@ def get_mem_percent():
 
 
 if __name__ == "__main__":
-	print(get_disk_stats())
-	print(get_disk_percent())
+    for p in get_top_consumers():
+        print(p)
