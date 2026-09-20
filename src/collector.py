@@ -2,6 +2,7 @@ import time
 import shutil
 import psutil
 
+#FOR PROCESSES
 def list_processes():
 	l = []
 	procs = list(psutil.process_iter(['pid', 'name']))
@@ -22,6 +23,7 @@ def get_top_consumers(n=5):
 	sorted_data = sorted(data, key=lambda x: x['cpu'], reverse=True)
 	return sorted_data[:n]
 
+#FOR DISK
 #result is in bytes, a named tuple(total, used, free)
 def get_disk_stats():
 	return shutil.disk_usage('/') #returns the storage stats for the root directory of the OS
@@ -30,6 +32,7 @@ def get_disk_percent():
 	disk_used_percent = (usage.used / usage.total) * 100
 	return disk_used_percent
 
+#FOR CPU
 def read_cpu_times():
 	with open('/proc/stat', 'r') as f:
 		line = f.readline()
@@ -47,6 +50,7 @@ def get_cpu_percent():
 	usage_pcent = ((total_delta - idle_delta) / total_delta)*100
 	return usage_pcent
 
+#FOR MEMORY
 def read_mem_info():
 	data = {}	
 	with open('/proc/meminfo', 'r') as f:
