@@ -8,8 +8,8 @@ def scan_log(filepath, keys=['ERROR', 'WARNING', 'CRITICAL', 'FAIL'], last_n=100
     for i in lines:
         if(any(keyword in i for keyword in keys)):
             tokens = i.split()
-            process = tokens[2]
-            message = ' '.join(tokens[4:])
+            process = tokens[2] #process name  + pid
+            message = ' '.join(tokens[4:]) 
             
             if message in flagged:
                 flagged[message]['count'] += 1
