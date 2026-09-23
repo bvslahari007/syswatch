@@ -4,14 +4,14 @@ DISK_THRESHOLD = 85
 
 
 def check_threshold(cpu, mem, disk):
-	alerts = []
+	alert = []
 	if(cpu > CPU_THRESHOLD):
-		alerts.append(f"CPU usage CRITICAL: {cpu}%. (THRESHOLD {CPU_THRESHOLD})")
+		alert.append(f"CPU usage CRITICAL: {cpu}%. (THRESHOLD {CPU_THRESHOLD})")
 	if(disk > DISK_THRESHOLD):
-                alerts.append(f"DISK usage CRITICAL: {disk}%. (THRESHOLD {DISK_THRESHOLD})")
-	if(mem > MEM_THRESHOLD):
-                alerts.append(f"MEMORY usage CRITICAL: {mem}%. (THRESHOLD {MEM_THRESHOLD})")
-	return alerts
+                alert.append(f"DISK usage CRITICAL: {disk}%. (THRESHOLD {DISK_THRESHOLD})")
+	if (mem > MEM_THRESHOLD):
+                alert.append(f"MEMORY usage CRITICAL: {mem}%. (THRESHOLD {MEM_THRESHOLD})")
+	return alert
 
 def show_alerts(cpu, mem, disk):
 	alerts = check_threshold(cpu, mem, disk)

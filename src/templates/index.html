@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <title>SysWatch Dashboard</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", monospace;
+        font-feature-settings:
+          "liga" 0,
+          "calt" 0,
+          "ss02" 1,
+          "tnum" 1,
+          "zero" 1;
+        background: #000000;
+        color: #e2e8f0;
+        padding: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      h1 {
+        color: #dbf838;
+        border-bottom: 2px solid #1e293b;
+        padding-bottom: 0.5rem;
+        text-align: center;
+      }
+
+      h2 {
+        color: #c1d9fc;
+        margin-top: 2.5rem;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        padding: 0.6rem 1rem;
+        border: 1px solid #334155;
+        text-align: left;
+      }
+      th {
+        background: #1e293b;
+        color: #94a3b8;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.05em;
+      }
+      tr:nth-child(even) td {
+        background: #1a2436;
+      }
+      .stat-good {
+        color: #4ade80;
+        font-weight: bold;
+      }
+      .stat-warn {
+        color: #fbbf24;
+        font-weight: bold;
+      }
+      .alert-box {
+        background: #1e293b;
+        border-left: 4px solid #f87171;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+      }
+      .alert-box li {
+        color: #f87171;
+        font-weight: bold;
+        margin: 0.3rem 0;
+      }
+      .ok-box {
+        background: #1e293b;
+        padding: 1rem;
+        border-radius: 4px;
+        color: #4ade80;
+        font-weight: bold;
+      }
+      footer {
+        margin-top: 3rem;
+        color: #475569;
+        font-size: 0.85rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SysWatch Dashboard</h1>
+
+    <table>
+      <tr>
+        <td><strong>CPU Usage</strong></td>
+        <td>{{ "%.2f"|format(cpu) }}%</td>
+      </tr>
+      <tr>
+        <td><strong>Memory Usage</strong></td>
+        <td>{{ "%.2f"|format(mem) }}%</td>
+      </tr>
+      <tr>
+        <td><strong>Disk Usage</strong></td>
+        <td>{{ "%.2f"|format(disk) }}%</td>
+      </tr>
+    </table>
+
+    <h2>Alerts</h2>
+    {% if ale|length == 0 %}
+    <div class="ok-box">
+      All resources (CPU, RAM, Disk) are nominal. No thresholds crossed.
+    </div>
+    {% else %}
+    <div class="alert-box">
+      <ul>
+        {% for i in ale %}
+        <li>{{ i }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <h2>Top Process Consumers</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>PID</th>
+          <th>Name</th>
+          <th>CPU</th>
+          <th>Memory</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in procs %}
+        <tr>
+          <td>{{ i['pid'] }}</td>
+          <td>{{ i['name'] }}</td>
+          <td>{{ "%.2f"|format(i['cpu']) }}%</td>
+          <td>{{ "%.2f"|format(i['mem']) }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <footer>SysWatch © 2026 Built by B. V. Sangeeta Lahari</footer>
+  </body>
+</html>
